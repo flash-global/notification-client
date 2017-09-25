@@ -15,6 +15,8 @@ class SearchBuilder
 {
     protected $params = [];
 
+    const NAMESPACE_FIELDS = 'Fei\Service\Notification\Client\Builder\Fields\\';
+
     /**
      * @return Recipient
      */
@@ -129,7 +131,7 @@ class SearchBuilder
     
     public function __call($name, $arguments)
     {
-        $class = 'Fei\Service\Notification\Client\Builder\Fields\\' . ucfirst($this->toCamelCase($name));
+        $class = static::NAMESPACE_FIELDS . ucfirst($this->toCamelCase($name));
 
         if (class_exists($class)) {
             return new $class($this);
