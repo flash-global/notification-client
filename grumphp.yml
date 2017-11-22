@@ -9,9 +9,8 @@ parameters:
         phpcs:
             encoding: UTF-8
             standard: PSR2
-            whitelist_patterns:
-                - /^src\/(.*)/
-                - /^tests\/(unit|functional|acceptance)\/(.*)/
+            ignore_patterns:
+                - /^vendor\/(.*)/
         phpcpd:
             exclude: ['vendor']
         phpmd:
