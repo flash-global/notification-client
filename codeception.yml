@@ -9,6 +9,7 @@ paths:
     tests: tests
     output: tests/_output
     support: tests/_support
+    log: tests/_output
     data: tests
 coverage:
     enabled: true
