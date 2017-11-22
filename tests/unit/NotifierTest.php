@@ -229,8 +229,7 @@ class NotifierTest extends Unit
 
         $request = new RequestDescriptor();
 
-        $this->expectException(NotificationException::class);
-        $this->expectExceptionMessage('Error');
+        $this->setExpectedException(NotificationException::class, 'Error');
         $notifier->send($request, 0);
     }
 
@@ -261,8 +260,8 @@ class NotifierTest extends Unit
 
         $request = new RequestDescriptor();
 
-        $this->expectException(NotificationException::class);
-        $this->expectExceptionMessage('Previous error');
+        $this->setExpectedException(NotificationException::class, 'Previous error');
+
         $notifier->send($request, 0);
     }
 
