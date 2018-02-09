@@ -19,7 +19,7 @@ abstract class AbstractAlert extends AbstractEntity
     /**
      * @var int
      */
-    protected $trigger;
+    protected $trigger = 0;
 
     /**
      * @return Notification
