@@ -14,7 +14,7 @@ use Fei\Service\Notification\Client\Entity\Notification;
 use Fei\Service\Notification\Client\Exception\NotificationException;
 use Fei\Service\Notification\Client\Notifier;
 use Guzzle\Http\Exception\BadResponseException;
-use Guzzle\Http\Message\Response;
+use GuzzleHttp\Psr7\Response;
 
 /**
  * Class NotifierTest
@@ -229,8 +229,7 @@ class NotifierTest extends Unit
 
         $request = new RequestDescriptor();
 
-        $this->expectException(NotificationException::class);
-        $this->expectExceptionMessage('Error');
+        $this->setExpectedException(NotificationException::class, 'Error');
         $notifier->send($request, 0);
     }
 
@@ -248,21 +247,14 @@ class NotifierTest extends Unit
 
     public function testSendWhenAnExceptionIsThrown()
     {
-        $response = new Response('500');
-        $response->setBody(json_encode(['error' => 'Previous error', 'code' => 500]));
-
-        $exceptionPrevious = new BadResponseException();
-        $exceptionPrevious->setResponse($response);
-
-        $exception = new \Exception('Error', 0, $exceptionPrevious);
+        $exception = new NotificationException('Error', 0);
 
         $notifier = Stub::make(Notifier::class, ['callSendInParent' => null]);
         $notifier->expects($this->once())->method('callSendInParent')->willThrowException($exception);
 
         $request = new RequestDescriptor();
 
-        $this->expectException(NotificationException::class);
-        $this->expectExceptionMessage('Previous error');
+        $this->setExpectedException(NotificationException::class, 'Error');
         $notifier->send($request, 0);
     }
 

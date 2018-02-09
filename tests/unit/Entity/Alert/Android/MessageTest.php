@@ -51,7 +51,7 @@ class MessageTest extends TestCase
         $message = new Message();
         $message->setRecipients([]);
 
-        $this->expectException(AndroidPushException::class);
+        $this->setExpectedException(AndroidPushException::class);
 
         $message->buildArray();
     }

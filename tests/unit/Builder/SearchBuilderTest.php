@@ -61,8 +61,7 @@ class SearchBuilderTest extends Unit
     {
         $builder = new SearchBuilder();
 
-        $this->expectException(NotificationException::class);
-        $this->expectExceptionMessage('Type has to be either "AND" or "OR"!');
+        $this->setExpectedException(NotificationException::class, 'Type has to be either "AND" or "OR"!');
 
         $builder->contextCondition('ERR');
     }
@@ -137,7 +136,7 @@ class SearchBuilderTest extends Unit
         $builder = new SearchBuilder();
 
         $this->assertInstanceOf(Origin::class, $builder->__call('origin', null));
-        $this->expectException(\Exception::class);
+        $this->setExpectedException(\Exception::class);
         $builder->fakeMethode();
     }
 }

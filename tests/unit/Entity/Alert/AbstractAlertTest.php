@@ -8,15 +8,9 @@ use PHPUnit\Framework\TestCase;
 
 class AbstractAlertTest extends TestCase
 {
-
     public function testNotificationTest()
     {
-        $alert = new Class extends AbstractAlert{
-            public function getType()
-            {
-                return 'tube';
-            }
-        };
+        $alert = $this->getMockForAbstractClass(AbstractAlert::class);
 
         $notification = new Notification();
         $alert->setNotification($notification);
@@ -27,12 +21,7 @@ class AbstractAlertTest extends TestCase
 
     public function testTriggerTest()
     {
-        $alert = new Class extends AbstractAlert {
-            public function getType()
-            {
-                return 'tube';
-            }
-        };
+        $alert = $this->getMockForAbstractClass(AbstractAlert::class);
 
         $interval = new DateInterval('P2Y4DT6H8M');
         $alert->setTrigger($interval);
@@ -48,17 +37,12 @@ class AbstractAlertTest extends TestCase
             ->setMessage('fake-msg')
             ->setCreatedAt('2017-09-11T00:00:00+00:00');
 
-        $alert = new Class extends AbstractAlert {
-            public function getType()
-            {
-                return 'tube';
-            }
-        };
+        $alert = $this->getMockForAbstractClass(AbstractAlert::class);
 
         $alert->setNotification($notification);
 
         $expected = [
-            'type' => 'tube',
+            'type' => null,
             'notification' => [
                 'id' => null,
                 'origin' => null,
@@ -73,7 +57,7 @@ class AbstractAlertTest extends TestCase
                 'entity_collection' => 'notifications',
                 'action' => null,
             ],
-            'trigger' => null
+            'trigger' => 0
         ];
 
         $this->assertEquals($expected, $alert->toArray());
