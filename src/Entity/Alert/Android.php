@@ -1,13 +1,13 @@
 <?php
 
-
 namespace Fei\Service\Notification\Client\Entity\Alert;
 
 use Fei\Service\Notification\Client\Entity\Alert\Android\Message;
 
 /**
  * Class Android
- * @package Fei\Service\Notification\Client\Entity\Alert
+ *
+ * @package Fei\Service\Notification\Entity\Alert
  */
 class Android extends AbstractAlert
 {
@@ -17,6 +17,8 @@ class Android extends AbstractAlert
     protected $message;
 
     /**
+     * Get Message
+     *
      * @return Message
      */
     public function getMessage()
@@ -25,21 +27,16 @@ class Android extends AbstractAlert
     }
 
     /**
-     * @param $message
-     * @return $this
+     * Set Message
+     *
+     * @param Message $message
+     *
+     * @return self
      */
-    public function setMessage($message)
+    public function setMessage(Message $message)
     {
         $this->message = $message;
         return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getAndroidNotification()
-    {
-        return $this->getMessage()->toArray();
     }
 
     /**
@@ -51,15 +48,18 @@ class Android extends AbstractAlert
     }
 
     /**
-     * @param array|\ArrayObject|\Traversable $data
+     * @param $data
+     *
      * @return $this
+     *
+     * @throws \Fei\Entity\Exception
      */
     public function hydrate($data)
     {
-        $pushNotification = (!empty($data['message']['pushNotification'])) ?
-            new Android\PushNotification($data['message']['pushNotification']) :
-            new Android\PushNotification();
-        $data['message']['pushNotification'] = $pushNotification;
+        $pushNotification = (!empty($data['message']['notification'])) ?
+            new Android\Notification($data['message']['notification']) :
+            new Android\Notification();
+        $data['message']['notification'] = $pushNotification;
         $data['message'] = (new Android\Message($data['message']));
 
         return parent::hydrate($data);

@@ -24,32 +24,11 @@ class AndroidTest extends TestCase
         $this->assertEquals('android-push', (new Android())->getType());
     }
 
-    public function testGetAndroidNotification()
-    {
-        $android = new Android();
-
-        $expected = [
-            'to' => 'toto',
-            'priority' => 'high',
-            'notification' =>
-                [
-                    'title' => 'my push',
-                    'body' => 'my big body',
-                ],
-        ];
-
-        $messageMock = $this->getMockBuilder(Message::class)->setMethods(['toArray'])->getMock();
-        $messageMock->expects($this->once())->method('toArray')->willReturn($expected);
-        $android->setMessage($messageMock);
-
-        $this->assertEquals($expected, $android->getAndroidNotification());
-    }
-
     public function testHydrate()
     {
         $data = [
             'message' => [
-                'pushNotification' => [
+                'notification' => [
                     'title' => 'fake-title',
                     'body' => 'fake-body'
                 ]
@@ -60,7 +39,7 @@ class AndroidTest extends TestCase
 
         $expected = (new Android())
             ->setMessage((new Message())
-                ->setPushNotification((new Android\PushNotification())
+                ->setNotification((new Android\Notification())
                     ->setTitle('fake-title')
                     ->setBody('fake-body')));
 
