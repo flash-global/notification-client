@@ -130,11 +130,10 @@ class Notifier extends AbstractApiClient implements NotifierInterface
         $alert = array_map(function (AbstractAlert $alert) {
             $arr = $alert->toArray();
 
-            $arr['notification'] = $arr['notification']['id'];
-
             return $arr;
         }, $alert);
-        
+
+
         $request = (new RequestDescriptor())
             ->setMethod('POST')
             ->setUrl($this->buildUrl(self::API_ALERT_PATH_INFO . '/create'));
@@ -142,7 +141,6 @@ class Notifier extends AbstractApiClient implements NotifierInterface
 
         $response = $this->send($request);
         $dataResponse = json_decode($response->getBody(), true);
-        
         return $dataResponse;
     }
 
@@ -153,6 +151,7 @@ class Notifier extends AbstractApiClient implements NotifierInterface
     {
         try {
             $response = $this->callSendInParent($request, $flags);
+
             if ($response instanceof ResponseDescriptor) {
                 return $response;
             }

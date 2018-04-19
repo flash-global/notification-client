@@ -3,6 +3,7 @@
 namespace Fei\Service\Notification\Client\Entity\Alert;
 
 use Fei\Entity\AbstractEntity;
+use Fei\Service\Notification\Client\Entity\Alert\Android\Message;
 use Fei\Service\Notification\Client\Entity\Notification;
 
 /**
@@ -67,7 +68,11 @@ abstract class AbstractAlert extends AbstractEntity
         $arr = parent::toArray($mapped);
 
         if ($arr['notification'] instanceof Notification) {
-            $arr['notification'] = $arr['notification']->toArray();
+            $arr['notification'] = $arr['notification']->getId();
+        }
+
+        if (isset($arr['message']) && $arr['message'] instanceof Message) {
+            $arr['message'] = $arr['message']->toArray();
         }
 
         return $arr;

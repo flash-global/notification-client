@@ -2,267 +2,139 @@
 
 namespace Fei\Service\Notification\Client\Entity\Alert\Android;
 
-use Fei\Service\Notification\Client\Entity\Alert\Android\Exception\AndroidPushException;
+use Fei\Entity\AbstractEntity;
 
 /**
  * Class Message
  *
- * https://developers.google.com/cloud-messaging/http-server-ref#downstream-http-messages-json
- *
  * @package Fei\Service\Notification\Entity\Alert\Android
  *
- * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Message extends AbstractAndroid
+class Message extends AbstractEntity
 {
-    const PRIORITY_HIGH = 'high';
-    const PRIORITY_NORMAL = 'normal';
-
     /**
      * @var array
      */
-    protected $recipients;
+    protected $data = [];
+
+    /**
+     * @var Notification
+     */
+    protected $notification;
 
     /**
      * @var string
      */
-    protected $collapseKey;
+    protected $token = '';
 
     /**
      * @var string
      */
-    protected $priority = self::PRIORITY_HIGH;
-
-    /**
-     * value in seconds : max = 4 week = default, check the doc
-     *
-     * @var int
-     */
-    protected $timeToLive = 2419200;
+    protected $topic = '';
 
     /**
      * @var string
      */
-    protected $restrictedPackageName;
-
-    /**
-     * @var bool
-     */
-    protected $dryRun;
-
-    /**
-     * @var PushNotification
-     */
-    protected $pushNotification;
-
-    /**
-     * Get Recipients
-     *
-     * @return array
-     */
-    public function getRecipients()
-    {
-        return $this->recipients;
-    }
-
-    /**
-     * Set Recipients
-     *
-     * @param array $recipients
-     * @return $this
-     */
-    public function setRecipients(array $recipients)
-    {
-        $this->recipients = $recipients;
-        return $this;
-    }
-
-    /**
-     * Get CollapseKey
-     *
-     * @return string
-     */
-    public function getCollapseKey()
-    {
-        return $this->collapseKey;
-    }
-
-    /**
-     * Set CollapseKey
-     *
-     * @param $collapseKey
-     * @return $this
-     */
-    public function setCollapseKey($collapseKey)
-    {
-        $this->collapseKey = $collapseKey;
-        return $this;
-    }
-
-    /**
-     * Get Priority
-     *
-     * @return string
-     */
-    public function getPriority()
-    {
-        return $this->priority;
-    }
-
-    /**
-     * Set Priority
-     *
-     * @param $priority
-     * @return $this
-     */
-    public function setPriority($priority)
-    {
-        $this->priority = $priority;
-        return $this;
-    }
-
-    /**
-     * Get TimeToLive
-     *
-     * @return int
-     */
-    public function getTimeToLive()
-    {
-        return $this->timeToLive;
-    }
-
-    /**
-     * Set TimeToLive
-     *
-     * @param $timeToLive
-     * @return $this
-     */
-    public function setTimeToLive($timeToLive)
-    {
-        $this->timeToLive = $timeToLive;
-        return $this;
-    }
-
-    /**
-     * Get RestrictedPackageName
-     *
-     * @return string
-     */
-    public function getRestrictedPackageName()
-    {
-        return $this->restrictedPackageName;
-    }
-
-    /**
-     * Set RestrictedPackageName
-     *
-     * @param $restrictedPackageName
-     * @return $this
-     */
-    public function setRestrictedPackageName($restrictedPackageName)
-    {
-        $this->restrictedPackageName = $restrictedPackageName;
-        return $this;
-    }
-
-    /**
-     * Get DryRun
-     *
-     * @return bool
-     */
-    public function isDryRun()
-    {
-        return $this->dryRun;
-    }
-
-    /**
-     * Set DryRun
-     *
-     * @param $dryRun
-     * @return $this
-     */
-    public function setDryRun($dryRun)
-    {
-        $this->dryRun = $dryRun;
-        return $this;
-    }
-
-    /**
-     * Get Notification
-     *
-     * @return PushNotification
-     */
-    public function getPushNotification()
-    {
-        return $this->pushNotification;
-    }
-
-    /**
-     * Set Notification
-     *
-     * @param PushNotification $pushNotification
-     * @return $this
-     */
-    public function setPushNotification(PushNotification $pushNotification)
-    {
-        $this->pushNotification = $pushNotification;
-        return $this;
-    }
-
-    /**
-     * Add Recipient
-     *
-     * @param $token
-     * @return $this
-     */
-    public function addRecipient($token)
-    {
-        $this->recipients[] = $token;
-        return $this;
-    }
+    protected $condition= '';
 
     /**
      * @return array
-     * @throws AndroidPushException
      */
-    public function buildArray()
+    public function getData()
     {
-        $data = [];
-        $vars = get_object_vars($this);
-
-        if (empty($this->getRecipients())) {
-            throw new AndroidPushException('The recipient can\'t be null');
-        }
-
-        foreach ($vars as $key => $value) {
-            if (!empty($value)) {
-                switch ($key) {
-                    case 'recipients':
-                        $this->formatRecipients($data);
-                        break;
-                    case 'pushNotification':
-                        $data['notification'] = $this->getPushNotification()->buildArray();
-                        break;
-                    default:
-                        $attr = $this->toSnakeCase($key);
-                        $data[$attr] = $value;
-                        break;
-                }
-            }
-        }
-
-        return $data;
+        return $this->data;
     }
 
     /**
      * @param array $data
+     * @return Message
      */
-    private function formatRecipients(array &$data)
+    public function setData($data)
     {
-        if (count($this->getRecipients()) === 1) {
-            $data['to'] = $this->getRecipients()[0];
-        } else {
-            $data['registration_ids'] = $this->getRecipients();
+        $this->data = $data;
+        return $this;
+    }
+
+    /**
+     * @return Notification
+     */
+    public function getNotification()
+    {
+        return $this->notification;
+    }
+
+    /**
+     * @param Notification $notification
+     * @return Message
+     */
+    public function setNotification(Notification $notification)
+    {
+        $this->notification = $notification;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getToken()
+    {
+        return $this->token;
+    }
+
+    /**
+     * @param string $token
+     * @return Message
+     */
+    public function setToken($token)
+    {
+        $this->token = $token;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTopic()
+    {
+        return $this->topic;
+    }
+
+    /**
+     * @param string $topic
+     * @return Message
+     */
+    public function setTopic($topic)
+    {
+        $this->topic = $topic;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCondition()
+    {
+        return $this->condition;
+    }
+
+    /**
+     * @param string $condition
+     * @return Message
+     */
+    public function setCondition($condition)
+    {
+        $this->condition = $condition;
+        return $this;
+    }
+
+    public function toArray($mapped = false)
+    {
+        $arr = parent::toArray($mapped);
+
+        if ($arr['notification'] instanceof Notification) {
+            $arr['notification'] = $arr['notification']->toArray();
         }
+
+        return $arr;
     }
 }

@@ -3,102 +3,59 @@
 
 namespace Fei\Service\Notification\Client\Tests\Entity\Android;
 
-use Fei\Service\Notification\Client\Entity\Alert\Android\Exception\AndroidPushException;
 use Fei\Service\Notification\Client\Entity\Alert\Android\Message;
-use Fei\Service\Notification\Client\Entity\Alert\Android\PushNotification;
+use Fei\Service\Notification\Client\Entity\Alert\Android\Notification;
 use PHPUnit\Framework\TestCase;
 
 class MessageTest extends TestCase
 {
     public function testAccessors()
     {
-        $this->testOneAccessors('recipients', []);
-        $this->testOneAccessors('collapseKey', 'fake-key');
-        $this->testOneAccessors('priority', 'high');
-        $this->testOneAccessors('timeToLive', 1);
-        $this->testOneAccessors('restrictedPackageName', 'fake-package');
-        $this->testOneAccessors('pushNotification', new PushNotification());
+        $notification = (new Notification())
+            ->setBody('body')
+            ->setTitle('title');
 
-        $message = new Message();
-        $message->setDryRun(false);
-        $this->assertEquals($message->isDryRun(), false);
-        $this->assertAttributeEquals($message->isDryRun(), 'dryRun', $message);
-    }
-
-    protected function testOneAccessors($name, $expected)
-    {
-        $setter = 'set' . ucfirst($name);
-        $getter = 'get' . ucfirst($name);
-
-        $notification = new Message();
-        $notification->$setter($expected);
-
-        $this->assertEquals($notification->$getter(), $expected);
-        $this->assertAttributeEquals($notification->$getter(), $name, $notification);
-    }
-
-    public function testAddRecipient()
-    {
-        $message = new Message();
-        $message->addRecipient('toto')
-            ->addRecipient('titi');
-
-        $this->assertEquals(['toto', 'titi'], $message->getRecipients());
-    }
-
-    public function testExceptionBuildArray()
-    {
-        $message = new Message();
-        $message->setRecipients([]);
-
-        $this->setExpectedException(AndroidPushException::class);
-
-        $message->buildArray();
-    }
-
-    public function testBuildArray()
-    {
-        $expected = $expected = [
-            'to' => 'fake-recipient',
-            'priority' => 'high',
-            'notification' =>
-                [
-                    'title' => 'fake-title',
-                    'body' => 'fake-body',
-                ],
-                'time_to_live' => 2419200
-        ];
         $message = (new Message())
-            ->addRecipient('fake-recipient')
-            ->setPushNotification((new PushNotification())
-                ->setTitle('fake-title')
-                ->setBody('fake-body'));
+            ->setNotification($notification)
+            ->setData(['data' => 'test'])
+            ->setToken('token')
+            ->setTopic('topic')
+            ->setCondition('condition');
 
-        $this->assertEquals($expected, $message->buildArray());
+        $this->assertEquals('token', $message->getToken());
+        $this->assertEquals('topic', $message->getTopic());
+        $this->assertEquals('condition', $message->getCondition());
+        $this->assertEquals(['data' => 'test'], $message->getData());
+        $this->assertEquals($notification, $message->getNotification());
     }
 
-    public function testBuildArrayWithMultipleRecipients()
+    public function testToArray()
     {
-        $expected = $expected = [
-            'registration_ids' => [
-                'fake-recipient',
-                'fake-recipient-2'
+        $expected = [
+            'data' => [
+                'data' => 'test'
             ],
-            'priority' => 'high',
-            'notification' =>
-                [
-                    'title' => 'fake-title',
-                    'body' => 'fake-body',
-                ],
-                'time_to_live' => 2419200
+            'notification' => [
+                'title' => 'title',
+                'body' => 'body'
+            ],
+            'token' => 'token',
+            'topic' => 'topic',
+            'condition' => 'condition'
         ];
-        $message = (new Message())
-            ->addRecipient('fake-recipient')
-            ->addRecipient('fake-recipient-2')
-            ->setPushNotification((new PushNotification())
-                ->setTitle('fake-title')
-                ->setBody('fake-body'));
 
-        $this->assertEquals($expected, $message->buildArray());
+        $notification = (new Notification())
+            ->setBody('body')
+            ->setTitle('title');
+
+        $message = (new Message())
+            ->setNotification($notification)
+            ->setData(['data' => 'test'])
+            ->setToken('token')
+            ->setTopic('topic')
+            ->setCondition('condition');
+
+
+        $this->assertEquals($expected, $message->toArray());
     }
 }
