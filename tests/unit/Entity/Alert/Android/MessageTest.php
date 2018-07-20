@@ -6,9 +6,9 @@ namespace Fei\Service\Notification\Client\Tests\Entity\Android;
 use Fei\Service\Notification\Client\Entity\Alert\Android\Exception\AndroidPushException;
 use Fei\Service\Notification\Client\Entity\Alert\Android\Message;
 use Fei\Service\Notification\Client\Entity\Alert\Android\PushNotification;
-use PHPUnit\Framework\TestCase;
+use Codeception\Test\Unit;
 
-class MessageTest extends TestCase
+class MessageTest extends Unit
 {
     public function testAccessors()
     {

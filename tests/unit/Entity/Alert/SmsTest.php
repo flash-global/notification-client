@@ -5,9 +5,9 @@ namespace Fei\Service\Notification\Tests\Entity;
 
 use Fei\Service\Notification\Client\Entity\Alert\Sms;
 use Fei\Service\Notification\Client\Entity\Alert\Sms\Message;
-use PHPUnit\Framework\TestCase;
+use Codeception\Test\Unit;
 
-class SmsTest extends TestCase
+class SmsTest extends Unit
 {
     public function testAccessors()
     {

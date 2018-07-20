@@ -2,9 +2,9 @@
 namespace Fei\Service\Notification\Tests\Client\Entity;
 
 use Fei\Service\Notification\Client\Entity\Notification;
-use PHPUnit\Framework\TestCase;
+use Codeception\Test\Unit;
 
-class NotificationTest extends TestCase
+class NotificationTest extends Unit
 {
     public function testAccessors()
     {
