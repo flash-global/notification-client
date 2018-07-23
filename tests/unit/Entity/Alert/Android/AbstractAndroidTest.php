@@ -3,8 +3,8 @@
 namespace Fei\Service\Notification\Client\Tests\Entity\Android;
 
 use Fei\Service\Notification\Client\Entity\Alert\Android\AbstractAndroid;
-use PHPUnit\Framework\TestCase;
+use Codeception\Test\Unit;
 
-class AbstractAndroidTest extends TestCase
+class AbstractAndroidTest extends Unit
 {
 }

@@ -2,9 +2,9 @@
 namespace Fei\Service\Notification\Tests\Entity;
 
 use Fei\Service\Notification\Client\Entity\Alert\Email;
-use PHPUnit\Framework\TestCase;
+use Codeception\Test\Unit;
 
-class EmailTest extends TestCase
+class EmailTest extends Unit
 {
     public function testEmailAccessors()
     {

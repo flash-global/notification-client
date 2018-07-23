@@ -4,9 +4,9 @@
 namespace Fei\Service\Notification\Client\Tests\Entity\Android;
 
 use Fei\Service\Notification\Client\Entity\Alert\Android\PushNotification;
-use PHPUnit\Framework\TestCase;
+use Codeception\Test\Unit;
 
-class PushNotificationTest extends TestCase
+class PushNotificationTest extends Unit
 {
     public function testAccessors()
     {
