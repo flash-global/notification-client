@@ -5,9 +5,9 @@ namespace Fei\Service\Notification\Client\Tests\Entity;
 
 use Fei\Service\Notification\Client\Entity\Alert\Android;
 use Fei\Service\Notification\Client\Entity\Alert\Android\Message;
-use PHPUnit\Framework\TestCase;
+use Codeception\Test\Unit;
 
-class AndroidTest extends TestCase
+class AndroidTest extends Unit
 {
     public function testMessage()
     {

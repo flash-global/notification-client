@@ -6,9 +6,9 @@ use Fei\Service\Notification\Client\Entity\Alert\AbstractAlert;
 use Fei\Service\Notification\Client\Entity\Alert\Android;
 use Fei\Service\Notification\Client\Entity\Alert\Android\Message;
 use Fei\Service\Notification\Client\Entity\Notification;
-use PHPUnit\Framework\TestCase;
+use Codeception\Test\Unit;
 
-class AbstractAlertTest extends TestCase
+class AbstractAlertTest extends Unit
 {
     public function testNotificationTest()
     {
