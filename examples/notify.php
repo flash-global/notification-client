@@ -7,7 +7,9 @@ use Fei\Service\Notification\Client\Notifier;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-$notifier = new Notifier([AbstractApiClient::OPTION_BASEURL => 'http://127.0.0.1:8800']);
+$notifier = new Notifier([AbstractApiClient::OPTION_BASEURL => 'http://127.0.0.1:8800',
+                            AbstractApiClient::OPTION_HEADER_AUTHORIZATION => 'key']);
+
 $notifier->setTransport(new BasicTransport());
 
 try {
