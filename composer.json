@@ -15,15 +15,15 @@
             "Fei\\Service\\Notification\\Client\\": "src/"
         }
     },
-    "repositories": [
+    "repositories" : [
         {
-            "type": "composer",
-            "url": "https://composer.flash.global"
+            "type" : "git",
+            "url": "git@github.com:flash-global/api-client.git"
         }
     ],
     "require": {
         "php": ">=5.5",
-        "fei/api-client": "^1.1"
+        "fei/api-client": "^1.1.0"
     },
     "require-dev": {
         "codeception/codeception": "^2.2",
