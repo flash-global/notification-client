@@ -9,6 +9,7 @@
     - [Runtime](#runtime)
 - [Step by step installation](#step-by-step-installation)
     - [Initialization](#initialization)
+    - [Configuration](#configuration)
     - [Settings](#settings)
     - [Known issues](#known-issues)
 - [Contribution](#contribution)
