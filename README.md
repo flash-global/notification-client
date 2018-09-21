@@ -39,6 +39,17 @@ easily
 - Run Composer depedencies installation
 ```composer install```
 
+## Configuration
+
+The notification client needs some options to work properly. The available options that can be passed to the `__construct()` or `setOptions()` methods are :
+
+
+| Option           | Description                                                                | Type   | Possible Values                                | Default                 |
+|------------------|----------------------------------------------------------------------------|--------|------------------------------------------------|-------------------------|
+| OPTION_BASEURL   | This is the server to which send the requests.                             | string | Any URL, including protocol but excluding path | --                      |
+| OPTION_HEADER_AUTHORIZATION    | Api Key for authentification                                               | string | Any string value                               | ''                      |
+
+
 ### Settings
 
 Don't forget to set the right `baseUrl` !
