@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a96328264e4597379567656e844180aa",
+    "content-hash": "a447dae4fab3393aed229205effca33c",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -531,16 +531,16 @@
         },
         {
             "name": "fei/notification-common",
-            "version": "v1.2.0",
+            "version": "v1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/flash-global/notification-common.git",
-                "reference": "2162ff66378bcedf7fcb62d3ff6477de2903036c"
+                "reference": "68c7d7511f9f239a8749dcad29590e3562cae2f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/flash-global/notification-common/zipball/2162ff66378bcedf7fcb62d3ff6477de2903036c",
-                "reference": "2162ff66378bcedf7fcb62d3ff6477de2903036c",
+                "url": "https://api.github.com/repos/flash-global/notification-common/zipball/68c7d7511f9f239a8749dcad29590e3562cae2f6",
+                "reference": "68c7d7511f9f239a8749dcad29590e3562cae2f6",
                 "shasum": ""
             },
             "require": {
@@ -567,7 +567,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "proprietary"
+                "GPL-3.0"
             ],
             "authors": [
                 {
@@ -580,7 +580,7 @@
                 "components",
                 "notification"
             ],
-            "time": "2018-12-28T19:02:51+00:00"
+            "time": "2018-12-28T22:31:39+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",

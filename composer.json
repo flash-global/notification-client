@@ -18,7 +18,7 @@
     "require": {
         "php": ">=7.0",
         "fei/api-client": "^1.1.0",
-	"fei/notification-common": "^1.2.0"
+	"fei/notification-common": "^1.2.1"
     },
     "require-dev": {
         "codeception/codeception": "^2.2",
