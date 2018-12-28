@@ -5,10 +5,13 @@ use Fei\ApiClient\AbstractApiClient;
 use Fei\ApiClient\RequestDescriptor;
 use Fei\ApiClient\ResponseDescriptor;
 use Fei\Service\Notification\Client\Builder\SearchBuilder;
-use Fei\Service\Notification\Client\Entity\Alert\AbstractAlert;
+use Fei\Service\Notification\Entity\Alert\AbstractAlert;
+use Fei\Service\Notification\Transformer\NotificationTransformer;
+use Fei\Service\Notification\Transformer\AlertTransformer;
 use Fei\Service\Notification\Client\Exception\NotificationException;
-use Fei\Service\Notification\Client\Entity\Notification;
+use Fei\Service\Notification\Entity\Notification;
 use Guzzle\Http\Exception\BadResponseException;
+use Fei\Service\Notification\Entity\Alert\Email;
 
 /**
  * Class Notifier
@@ -65,7 +68,7 @@ class Notifier extends AbstractApiClient implements NotifierInterface
         $notifications = is_array($notifications) ? $notifications : [$notifications];
         $data = array_map(function ($value) {
             if ($value instanceof Notification) {
-                return $value->toArray();
+                return (new NotificationTransformer)->transform($value);
             } elseif (is_array($value)) {
                 return $value;
             }
@@ -120,20 +123,75 @@ class Notifier extends AbstractApiClient implements NotifierInterface
         return $this->getCollection($dataResponse['updated']);
     }
 
+   public function alertRss($alert)
+    {
+        $alert = (is_array($alert)) ? $alert : [$alert];
+
+        $alert = array_map(function (Rss $alert) {
+            $transformer = new AlertTransformer();
+
+            $arr = $transformer->transformRss($alert);
+            $arr = $transformer->transform($arr);
+
+            return $arr;
+        }, $alert);
+
+        return $this->alert($alert);
+    }
+
+    public function alertAndroid($alert)
+    {
+        $alert = (is_array($alert)) ? $alert : [$alert];
+
+        $alert = array_map(function (Android $alert) {
+            $transformer = new AlertTransformer();
+
+            $arr = $transformer->transformAndroid($alert);
+            $arr = $transformer->transform($arr);
+
+            return $arr;
+        }, $alert);
+
+        return $this->alert($alert);
+    }
+
+    public function alertSms($alert)
+    {
+        $alert = (is_array($alert)) ? $alert : [$alert];
+
+        $alert = array_map(function (Sms $alert) {
+            $transformer = new AlertTransformer();
+
+            $arr = $transformer->transformSms($alert);
+            $arr = $transformer->transform($arr);
+
+            return $arr;
+        }, $alert);
+
+        return $this->alert($alert);
+    }
+
+    public function alertEmail($alert)
+    {
+	$alert = (is_array($alert)) ? $alert : [$alert];
+
+	$alert = array_map(function (Email $alert) {
+	    $transformer = new AlertTransformer();
+
+	    $arr = $transformer->transformEmail($alert);
+	    $arr = $transformer->transform($arr);
+
+            return $arr;
+	}, $alert);
+
+	return $this->alert($alert);
+    }
+
     /**
      * @inheritdoc
      */
     public function alert($alert)
     {
-        $alert = (is_array($alert)) ? $alert : [$alert];
-
-        $alert = array_map(function (AbstractAlert $alert) {
-            $arr = $alert->toArray();
-
-            return $arr;
-        }, $alert);
-
-
         $request = (new RequestDescriptor())
             ->setMethod('POST')
             ->setUrl($this->buildUrl(self::API_ALERT_PATH_INFO . '/create'));

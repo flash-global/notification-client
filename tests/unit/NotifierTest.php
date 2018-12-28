@@ -9,8 +9,8 @@ use Fei\ApiClient\ResponseDescriptor;
 use Fei\ApiClient\Transport\BasicTransport;
 use Fei\ApiClient\Transport\SyncTransportInterface;
 use Fei\Service\Notification\Client\Builder\SearchBuilder;
-use Fei\Service\Notification\Client\Entity\Alert\Email;
-use Fei\Service\Notification\Client\Entity\Notification;
+use Fei\Service\Notification\Entity\Alert\Email;
+use Fei\Service\Notification\Entity\Notification;
 use Fei\Service\Notification\Client\Exception\NotificationException;
 use Fei\Service\Notification\Client\Notifier;
 use Guzzle\Http\Exception\BadResponseException;
@@ -132,8 +132,7 @@ class NotifierTest extends Unit
                 ->setEvent('My favourite event')
                 ->setType(1)
                 ->setAction(json_encode(['my.second.action' => 'second create']))
-                ->setRecipient('toto')
-                ->toArray(),
+                ->setRecipient('toto'),
             $notif3 = 'err'
         ];
 
@@ -166,11 +165,9 @@ class NotifierTest extends Unit
                 'type' => 1,
                 'createdAt' => '2017-09-05T09:05:38+00:00',
                 'status' => 1,
-                'parentNotificationId' => null,
+                'parent_notification_id' => null,
                 'contexts' => '[]',
                 'action' => '{"my.action": "first create"}',
-                'mapping' => [],
-                'mappingTo' => []
             ]),
             new Notification([
                 'id' => 139,
@@ -181,11 +178,9 @@ class NotifierTest extends Unit
                 'type' => 1,
                 'createdAt' => '2017-09-05T09:05:38+00:00',
                 'status' => 1,
-                'parentNotificationId' => null,
+                'parent_notification_id' => null,
                 'contexts' => '[]',
                 'action' => '{"my.second.action": "second create"}',
-                'mapping' => [],
-                'mappingTo' => []
             ])
         ];
 
@@ -194,6 +189,22 @@ class NotifierTest extends Unit
 
     public function testAlert()
     {
+
+        $notification = new Notification([
+                'id' => 139,
+                'origin' => 'super.test',
+                'recipient' => 'toto',
+                'event' => 'My favourite event',
+                'message' => 'last test',
+                'type' => 1,
+                'createdAt' => '2017-09-05T09:05:38+00:00',
+                'status' => 1,
+                'parent_notification_id' => null,
+                'contexts' => '[]',
+                'action' => '{"my.second.action": "second create"}',
+            ]);
+
+
         $transport = $this->getMockBuilder(SyncTransportInterface::class)->getMock();
         $responseMock = $this->getMockBuilder(ResponseDescriptor::class)->setMethods(['getBody'])->getMock();
         $responseMock->expects($this->once())->method('getBody')->willReturn(json_encode(['done']));
@@ -202,7 +213,8 @@ class NotifierTest extends Unit
         $client = new Notifier();
         $client->setTransport($transport);
 
-        $response = $client->alert(new Email());
+        $response = $client->alertEmail((new Email())->setContent('test')
+        ->setSubject('test')->setEmail('contact@yoctu.com')->setNotification($notification));
 
         $this->assertEquals(['done'], $response);
     }
@@ -332,15 +344,9 @@ class NotifierTest extends Unit
                     'type' => 1,
                     'createdAt' => '2017-09-04 12:41:01.000000',
                     'status' => 7,
-                    'parentNotificationId' => null,
+                    'parent_notification_id' => null,
                     'contexts' => '[]',
                     'action' => '{"my.second.action": "second create"}',
-                    'mapping' =>
-                        array (
-                        ),
-                    'mappingTo' =>
-                        array (
-                        ),
                 )),
             1 =>
                 new Notification(array(
@@ -352,15 +358,9 @@ class NotifierTest extends Unit
                     'type' => 1,
                     'createdAt' => '2017-09-04 12:41:01.000000',
                     'status' => 7,
-                    'parentNotificationId' => null,
+                    'parent_notification_id' => null,
                     'contexts' => '[]',
                     'action' => '{"my.second.action": "second create"}',
-                    'mapping' =>
-                        array (
-                        ),
-                    'mappingTo' =>
-                        array (
-                        ),
                 )),
             2 =>
                 new Notification(array(
@@ -372,15 +372,9 @@ class NotifierTest extends Unit
                     'type' => 1,
                     'createdAt' => '2017-09-04 12:41:01.000000',
                     'status' => 7,
-                    'parentNotificationId' => null,
+                    'parent_notification_id' => null,
                     'contexts' => '[]',
                     'action' => '{"my.second.action": "second create"}',
-                    'mapping' =>
-                        array (
-                        ),
-                    'mappingTo' =>
-                        array (
-                        ),
                 ))
         );
     }
