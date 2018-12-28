@@ -9,13 +9,9 @@ parameters:
         phpcs:
             encoding: UTF-8
             standard: PSR2
-            ignore_patterns:
-              - tests/
-              - vendor/
-            triggered_by:
-              - php
-              - module
-              - inc
+            whitelist_patterns:
+                - /^app\/src\/(.*)/
+                - /^tests\/(.*)/
         phpcpd:
             exclude: ['vendor', 'data', 'tests']
         phpmd:

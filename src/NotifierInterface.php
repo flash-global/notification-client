@@ -2,8 +2,8 @@
 namespace Fei\Service\Notification\Client;
 
 use Fei\Service\Notification\Client\Builder\SearchBuilder;
-use Fei\Service\Notification\Client\Entity\Alert\AbstractAlert;
-use Fei\Service\Notification\Client\Entity\Notification;
+use Fei\Service\Notification\Entity\Alert\AbstractAlert;
+use Fei\Service\Notification\Entity\Notification;
 
 /**
  * Interface NotifierInterface
