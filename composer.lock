@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a447dae4fab3393aed229205effca33c",
+    "content-hash": "eaa913d9a414361e602279f1a727ac8f",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -531,16 +531,16 @@
         },
         {
             "name": "fei/notification-common",
-            "version": "v1.2.1",
+            "version": "v1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/flash-global/notification-common.git",
-                "reference": "68c7d7511f9f239a8749dcad29590e3562cae2f6"
+                "reference": "7b2aafa0d31bc394217db0f2883c9212fc342661"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/flash-global/notification-common/zipball/68c7d7511f9f239a8749dcad29590e3562cae2f6",
-                "reference": "68c7d7511f9f239a8749dcad29590e3562cae2f6",
+                "url": "https://api.github.com/repos/flash-global/notification-common/zipball/7b2aafa0d31bc394217db0f2883c9212fc342661",
+                "reference": "7b2aafa0d31bc394217db0f2883c9212fc342661",
                 "shasum": ""
             },
             "require": {
@@ -580,7 +580,7 @@
                 "components",
                 "notification"
             ],
-            "time": "2018-12-28T22:31:39+00:00"
+            "time": "2018-12-29T00:00:33+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -5793,7 +5793,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.0"
+        "php": ">=7.2"
     },
     "platform-dev": []
 }
