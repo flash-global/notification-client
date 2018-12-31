@@ -156,7 +156,7 @@ class NotifierTest extends Unit
         $response = $client->notify($notifications);
 
         $expected = [
-            new Notification([
+            [
                 'id' => 138,
                 'origin' => 'test',
                 'recipient' => 'bobo',
@@ -168,8 +168,8 @@ class NotifierTest extends Unit
                 'parent_notification_id' => null,
                 'contexts' => '[]',
                 'action' => '{"my.action": "first create"}',
-            ]),
-            new Notification([
+            ],
+            [
                 'id' => 139,
                 'origin' => 'super.test',
                 'recipient' => 'toto',
@@ -181,7 +181,7 @@ class NotifierTest extends Unit
                 'parent_notification_id' => null,
                 'contexts' => '[]',
                 'action' => '{"my.second.action": "second create"}',
-            ])
+            ]
         ];
 
         $this->assertEquals($expected, $response);
