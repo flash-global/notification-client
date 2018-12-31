@@ -12,6 +12,7 @@ use Fei\Service\Notification\Client\Exception\NotificationException;
 use Fei\Service\Notification\Entity\Notification;
 use Guzzle\Http\Exception\BadResponseException;
 use Fei\Service\Notification\Entity\Alert\Email;
+use Fei\Service\Notification\Entity\Alert\Rss;
 
 /**
  * Class Notifier
@@ -53,10 +54,9 @@ class Notifier extends AbstractApiClient implements NotifierInterface
             ->setMethod('DELETE')
             ->setUrl($this->buildUrl(self::API_PATH_INFO . '/' . urlencode($id)));
 
-        $response = $this->send($request);
-        $notification = new Notification($response->getData());
+	$response = $this->send($request);
 
-        return $notification;
+        return $response->getData();
     }
 
     /**
@@ -148,7 +148,6 @@ class Notifier extends AbstractApiClient implements NotifierInterface
             $arr = $transformer->transformRss($alert);
             $arr = $transformer->transform($arr);
 
-            return $arr;
         }, $alert);
 
         return $this->alert($alert);
@@ -164,7 +163,6 @@ class Notifier extends AbstractApiClient implements NotifierInterface
             $arr = $transformer->transformAndroid($alert);
             $arr = $transformer->transform($arr);
 
-            return $arr;
         }, $alert);
 
         return $this->alert($alert);
@@ -180,7 +178,6 @@ class Notifier extends AbstractApiClient implements NotifierInterface
             $arr = $transformer->transformSms($alert);
             $arr = $transformer->transform($arr);
 
-            return $arr;
         }, $alert);
 
         return $this->alert($alert);
@@ -196,7 +193,6 @@ class Notifier extends AbstractApiClient implements NotifierInterface
 	    $arr = $transformer->transformEmail($alert);
 	    $arr = $transformer->transform($arr);
 
-            return $arr;
 	}, $alert);
 
 	return $this->alert($alert);
