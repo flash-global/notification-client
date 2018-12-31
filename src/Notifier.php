@@ -47,6 +47,21 @@ class Notifier extends AbstractApiClient implements NotifierInterface
     /**
      * @inheritdoc
      */
+    public function delete($id)
+    {
+        $request = (new RequestDescriptor())
+            ->setMethod('DELETE')
+            ->setUrl($this->buildUrl(self::API_PATH_INFO . '/' . urlencode($id)));
+
+        $response = $this->send($request);
+        $notification = new Notification($response->getData());
+
+        return $notification;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function fetchOne($id)
     {
         $request = (new RequestDescriptor())
