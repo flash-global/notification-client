@@ -102,7 +102,7 @@ class Notifier extends AbstractApiClient implements NotifierInterface
 
         $result = json_decode($response->getBody(), true);
 
-        return $this->getCollection($result['created']);
+        return $result['created'];
     }
 
     /**
