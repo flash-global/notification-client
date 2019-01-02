@@ -30,7 +30,7 @@ class NotifierTest extends Unit
         $responseMock = $this->getMockBuilder(ResponseDescriptor::class)->setMethods(['getData'])->getMock();
         $responseMock->expects($this->once())->method('getData')->willReturn(array (
             0 =>
-                array (
+                new Notification(array (
                     'id' => 113,
                     'origin' => 'super.test',
                     'recipient' => 'toto',
@@ -39,12 +39,12 @@ class NotifierTest extends Unit
                     'type' => 1,
                     'createdAt' => '2017-09-04 12:41:01.000000',
                     'status' => 7,
-                    'parent_notification_id' => null,
-                    'contexts' => '[]',
+                    'parentNotificationId' => null,
+                    'context' => '[]',
                     'action' => '{"my.second.action": "second create"}',
-                ),
+                )),
             1 =>
-                array (
+                new Notification(array (
                     'id' => 115,
                     'origin' => 'super.test',
                     'recipient' => 'toto',
@@ -53,12 +53,12 @@ class NotifierTest extends Unit
                     'type' => 1,
                     'createdAt' => '2017-09-04 12:41:01.000000',
                     'status' => 7,
-                    'parent_notification_id' => null,
-                    'contexts' => '[]',
+                    'parentNotificationId' => null,
+                    'context' => '[]',
                     'action' => '{"my.second.action": "second create"}',
-                ),
+                )),
             2 =>
-                array (
+                new Notification(array (
                     'id' => 117,
                     'origin' => 'super.test',
                     'recipient' => 'toto',
@@ -67,10 +67,10 @@ class NotifierTest extends Unit
                     'type' => 1,
                     'createdAt' => '2017-09-04 12:41:01.000000',
                     'status' => 7,
-                    'parent_notification_id' => null,
-                    'contexts' => '[]',
+                    'parentNotificationId' => null,
+                    'context' => '[]',
                     'action' => '{"my.second.action": "second create"}',
-                )
+                ))
         ));
 
         $transport->expects($this->once())->method('send')->willReturn($responseMock);
@@ -88,9 +88,8 @@ class NotifierTest extends Unit
         $transport = $this->getMockBuilder(SyncTransportInterface::class)->getMock();
 
         $responseMock = $this->getMockBuilder(ResponseDescriptor::class)->setMethods(['getData'])->getMock();
-        $responseMock->expects($this->once())->method('getData')->willReturn(array (
-            0 =>
-                array (
+        $responseMock->expects($this->once())->method('getData')->willReturn(
+            new Notification([
                     'id' => 113,
                     'origin' => 'super.test',
                     'recipient' => 'toto',
@@ -99,11 +98,11 @@ class NotifierTest extends Unit
                     'type' => 1,
                     'createdAt' => '2017-09-04 12:41:01.000000',
                     'status' => 7,
-                    'parent_notification_id' => null,
-                    'contexts' => '[]',
-                    'action' => '{"my.second.action": "second create"}',
-                ),
-        ));
+                    'parentNotificationId' => null,
+                    'context' => '[]',
+            'action' => '{"my.second.action": "second create"}'
+            ])
+        );
 
         $transport->expects($this->once())->method('send')->willReturn($responseMock);
 
@@ -119,21 +118,24 @@ class NotifierTest extends Unit
     {
 
         $notifications = [
-            $notif1 = (new Notification())
+        0 =>
+        (new Notification())
                 ->setMessage('Last test')
                 ->setOrigin('test')
                 ->setEvent('My best event')
                 ->setType(1)
                 ->setAction(json_encode(['my.action' => 'first create']))
-                ->setRecipient('bobo'),
-            $notif2 = (new Notification())
+        ->setRecipient('bobo'),
+        1 =>
+            (new Notification())
                 ->setMessage('last test')
                 ->setOrigin('super.test')
                 ->setEvent('My favourite event')
                 ->setType(1)
                 ->setAction(json_encode(['my.second.action' => 'second create']))
-                ->setRecipient('toto'),
-            $notif3 = 'err'
+        ->setRecipient('toto'),
+        2 =>
+            'err'
         ];
 
         $transport = $this->getMockBuilder(SyncTransportInterface::class)->getMock();
@@ -141,11 +143,11 @@ class NotifierTest extends Unit
         $responseMock->expects($this->once())->method('getBody')->willReturn(
             '{"created": [{"id":138,"origin":"test","recipient":"bobo","event":"My best event",
             "message":"Last test","type":1,"createdAt":"2017-09-05T09:05:38+00:00",
-            "status":1,"parent_notification_id":null,"contexts":"[]",
+            "status":1,"parentNotificationId":null,"context":"[]",
             "action":"{\\u0022my.action\\u0022: \\u0022first create\\u0022}"},{"id":139,
             "origin":"super.test","recipient":"toto","event":"My favourite event",
             "message":"last test","type":1,"createdAt":"2017-09-05T09:05:38+00:00",
-            "status":1,"parent_notification_id":null,"contexts":"[]",
+            "status":1,"parentNotificationId":null,"context":"[]",
             "action":"{\\u0022my.second.action\\u0022: \\u0022second create\\u0022}"}]}'
         );
 
@@ -165,8 +167,8 @@ class NotifierTest extends Unit
                 'type' => 1,
                 'createdAt' => '2017-09-05T09:05:38+00:00',
                 'status' => 1,
-                'parent_notification_id' => null,
-                'contexts' => '[]',
+                'parentNotificationId' => null,
+                'context' => '[]',
                 'action' => '{"my.action": "first create"}',
             ],
             [
@@ -178,8 +180,8 @@ class NotifierTest extends Unit
                 'type' => 1,
                 'createdAt' => '2017-09-05T09:05:38+00:00',
                 'status' => 1,
-                'parent_notification_id' => null,
-                'contexts' => '[]',
+                'parentNotificationId' => null,
+                'context' => '[]',
                 'action' => '{"my.second.action": "second create"}',
             ]
         ];
@@ -189,7 +191,6 @@ class NotifierTest extends Unit
 
     public function testAlert()
     {
-
         $notification = new Notification([
                 'id' => 139,
                 'origin' => 'super.test',
@@ -199,8 +200,8 @@ class NotifierTest extends Unit
                 'type' => 1,
                 'createdAt' => '2017-09-05T09:05:38+00:00',
                 'status' => 1,
-                'parent_notification_id' => null,
-                'contexts' => '[]',
+                'parentNotificationId' => null,
+                'context' => '[]',
                 'action' => '{"my.second.action": "second create"}',
             ]);
 
@@ -213,7 +214,7 @@ class NotifierTest extends Unit
         $client = new Notifier();
         $client->setTransport($transport);
 
-        $response = $client->alertEmail((new Email())->setContent('test')
+        $response = $client->alert((new Email())->setContent('test')
         ->setSubject('test')->setEmail('contact@yoctu.com')->setNotification($notification));
 
         $this->assertEquals(['done'], $response);
@@ -225,7 +226,7 @@ class NotifierTest extends Unit
 
         /** @var Notifier $notifier */
         $notifier = Stub::make(Notifier::class, [
-            'callSendInParent' => $responseDescriptor,
+            'send' => $responseDescriptor,
         ]);
 
         $request = new RequestDescriptor();
@@ -234,21 +235,10 @@ class NotifierTest extends Unit
         $this->assertEquals($responseDescriptor, $results);
     }
 
-    public function testSendWhenAnExceptionIsThrownAndNoPrevious()
-    {
-        $notifier = Stub::make(Notifier::class, ['callSendInParent' => null]);
-        $notifier->expects($this->once())->method('callSendInParent')->willThrowException(new \Exception('Error'));
-
-        $request = new RequestDescriptor();
-
-        $this->setExpectedException(NotificationException::class, 'Error');
-        $notifier->send($request, 0);
-    }
-
     public function testSendWhenNullIsReturned()
     {
-        $notifier = Stub::make(Notifier::class, ['callSendInParent' => null]);
-        $notifier->expects($this->once())->method('callSendInParent')->willReturn(true);
+        $notifier = Stub::make(Notifier::class, ['send' => null]);
+        $notifier->expects($this->once())->method('send')->willReturn(true);
 
         $request = new RequestDescriptor();
 
@@ -261,8 +251,8 @@ class NotifierTest extends Unit
     {
         $exception = new NotificationException('Error', 0);
 
-        $notifier = Stub::make(Notifier::class, ['callSendInParent' => null]);
-        $notifier->expects($this->once())->method('callSendInParent')->willThrowException($exception);
+        $notifier = Stub::make(Notifier::class, ['send' => null]);
+        $notifier->expects($this->once())->method('send')->willThrowException($exception);
 
         $request = new RequestDescriptor();
 
@@ -279,17 +269,17 @@ class NotifierTest extends Unit
             "{ \"updated\": [ {\"id\":113,\"origin\":\"super.test\",\"recipient\":\"toto\",
             \"event\":\"My favourite event\",\"message\":\"This is a new message 2\",
             \"type\":1,\"createdAt\":\"2017-09-04 12:41:01.000000\",\"status\":7,
-            \"parent_notification_id\":null,\"contexts\":\"[]\",
+            \"parentNotificationId\":null,\"context\":\"[]\",
             \"action\":\"{\\\"my.second.action\\\": \\\"second create\\\"}\"},{\"id\":115,\"origin\":\"super.test\",
             \"recipient\":\"toto\",\"event\":\"My favourite event\",
             \"message\":\"This is a new message 2\",\"type\":1,\"createdAt\":\"2017-09-04 12:41:01.000000\",
-            \"status\":7,\"parent_notification_id\":null,\"contexts\":\"[]\",
+            \"status\":7,\"parentNotificationId\":null,\"context\":\"[]\",
             \"action\":\"{\\\"my.second.action\\\": \\\"second create\\\"}\"},
             {\"id\":117,\"origin\":\"super.test\",
             \"recipient\":\"toto\",\"event\":\"My favourite event\",
             \"message\":\"This is a new message 2\",\"type\":1,\"createdAt\":\"2017-09-04 12:41:01.000000\",
-            \"status\":7,\"parent_notification_id\":null,
-            \"contexts\":\"[]\",\"action\":\"{\\\"my.second.action\\\": \\\"second create\\\"}\"}]}"
+            \"status\":7,\"parentNotificationId\":null,
+            \"context\":\"[]\",\"action\":\"{\\\"my.second.action\\\": \\\"second create\\\"}\"}]}"
         );
 
         $transport->expects($this->once())->method('send')->willReturn($responseMock);
@@ -309,17 +299,17 @@ class NotifierTest extends Unit
             "{ \"updated\": [ {\"id\":113,\"origin\":\"super.test\",\"recipient\":\"toto\",
             \"event\":\"My favourite event\",\"message\":\"This is a new message 2\",
             \"type\":1,\"createdAt\":\"2017-09-04 12:41:01.000000\",\"status\":7,
-            \"parent_notification_id\":null,\"contexts\":\"[]\",
+            \"parentNotificationId\":null,\"context\":\"[]\",
             \"action\":\"{\\\"my.second.action\\\": \\\"second create\\\"}\"},{\"id\":115,\"origin\":\"super.test\",
             \"recipient\":\"toto\",\"event\":\"My favourite event\",
             \"message\":\"This is a new message 2\",\"type\":1,\"createdAt\":\"2017-09-04 12:41:01.000000\",
-            \"status\":7,\"parent_notification_id\":null,\"contexts\":\"[]\",
+            \"status\":7,\"parentNotificationId\":null,\"context\":\"[]\",
             \"action\":\"{\\\"my.second.action\\\": \\\"second create\\\"}\"},
             {\"id\":117,\"origin\":\"super.test\",
             \"recipient\":\"toto\",\"event\":\"My favourite event\",
             \"message\":\"This is a new message 2\",\"type\":1,\"createdAt\":\"2017-09-04 12:41:01.000000\",
-            \"status\":7,\"parent_notification_id\":null,
-            \"contexts\":\"[]\",\"action\":\"{\\\"my.second.action\\\": \\\"second create\\\"}\"}]}"
+            \"status\":7,\"parentNotificationId\":null,
+            \"context\":\"[]\",\"action\":\"{\\\"my.second.action\\\": \\\"second create\\\"}\"}]}"
         );
 
         $transport->expects($this->once())->method('send')->willReturn($responseMock);
@@ -344,8 +334,8 @@ class NotifierTest extends Unit
                     'type' => 1,
                     'createdAt' => '2017-09-04 12:41:01.000000',
                     'status' => 7,
-                    'parent_notification_id' => null,
-                    'contexts' => '[]',
+                    'parentNotificationId' => null,
+                    'context' => '[]',
                     'action' => '{"my.second.action": "second create"}',
                 )),
             1 =>
@@ -358,8 +348,8 @@ class NotifierTest extends Unit
                     'type' => 1,
                     'createdAt' => '2017-09-04 12:41:01.000000',
                     'status' => 7,
-                    'parent_notification_id' => null,
-                    'contexts' => '[]',
+                    'parentNotificationId' => null,
+                    'context' => '[]',
                     'action' => '{"my.second.action": "second create"}',
                 )),
             2 =>
@@ -372,8 +362,8 @@ class NotifierTest extends Unit
                     'type' => 1,
                     'createdAt' => '2017-09-04 12:41:01.000000',
                     'status' => 7,
-                    'parent_notification_id' => null,
-                    'contexts' => '[]',
+                    'parentNotificationId' => null,
+                    'context' => '[]',
                     'action' => '{"my.second.action": "second create"}',
                 ))
         );

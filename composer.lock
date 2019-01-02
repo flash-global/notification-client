@@ -531,16 +531,16 @@
         },
         {
             "name": "fei/notification-common",
-            "version": "v1.2.2",
+            "version": "v1.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/flash-global/notification-common.git",
-                "reference": "7b2aafa0d31bc394217db0f2883c9212fc342661"
+                "reference": "378291bb0a59907455b651865781b66be4f5b140"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/flash-global/notification-common/zipball/7b2aafa0d31bc394217db0f2883c9212fc342661",
-                "reference": "7b2aafa0d31bc394217db0f2883c9212fc342661",
+                "url": "https://api.github.com/repos/flash-global/notification-common/zipball/378291bb0a59907455b651865781b66be4f5b140",
+                "reference": "378291bb0a59907455b651865781b66be4f5b140",
                 "shasum": ""
             },
             "require": {
@@ -580,7 +580,7 @@
                 "components",
                 "notification"
             ],
-            "time": "2018-12-29T00:00:33+00:00"
+            "time": "2019-01-02T20:48:25+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -2166,16 +2166,16 @@
         },
         {
             "name": "codeception/codeception",
-            "version": "2.5.1",
+            "version": "2.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Codeception.git",
-                "reference": "e0a658c64e98811a6fd4f6aa7c3222e0609066a9"
+                "reference": "4f89de32929fef53ca6d83b159fe329b6d484c1c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/e0a658c64e98811a6fd4f6aa7c3222e0609066a9",
-                "reference": "e0a658c64e98811a6fd4f6aa7c3222e0609066a9",
+                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/4f89de32929fef53ca6d83b159fe329b6d484c1c",
+                "reference": "4f89de32929fef53ca6d83b159fe329b6d484c1c",
                 "shasum": ""
             },
             "require": {
@@ -2254,20 +2254,20 @@
                 "functional testing",
                 "unit testing"
             ],
-            "time": "2018-10-29T21:23:19+00:00"
+            "time": "2019-01-02T10:28:51+00:00"
         },
         {
             "name": "codeception/phpunit-wrapper",
-            "version": "6.1.1",
+            "version": "6.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/phpunit-wrapper.git",
-                "reference": "a0db6773ae02daf0357ecc17218a8448e7629a53"
+                "reference": "b19957dd1b5f3854e60e37e9282519925efcd145"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/phpunit-wrapper/zipball/a0db6773ae02daf0357ecc17218a8448e7629a53",
-                "reference": "a0db6773ae02daf0357ecc17218a8448e7629a53",
+                "url": "https://api.github.com/repos/Codeception/phpunit-wrapper/zipball/b19957dd1b5f3854e60e37e9282519925efcd145",
+                "reference": "b19957dd1b5f3854e60e37e9282519925efcd145",
                 "shasum": ""
             },
             "require": {
@@ -2300,7 +2300,7 @@
                 }
             ],
             "description": "PHPUnit classes used by Codeception",
-            "time": "2018-12-07T10:40:20+00:00"
+            "time": "2019-01-01T15:39:11+00:00"
         },
         {
             "name": "codeception/stub",

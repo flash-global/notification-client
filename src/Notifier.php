@@ -40,9 +40,7 @@ class Notifier extends AbstractApiClient implements NotifierInterface
                 )
             );
 
-        $response = $this->send($request);
-
-        return $this->getCollection($response->getData());
+	return $this->send($request)->getData();
     }
 
     /**
@@ -156,10 +154,10 @@ class Notifier extends AbstractApiClient implements NotifierInterface
     /**
      * {@inheritdoc}
      */
-    public function send(RequestDescriptor $request, $flags = 0)
+/*    public function send(RequestDescriptor $request, $flags = 0)
     {
         try {
-            $response = $this->callSendInParent($request, $flags);
+            $response = parent::send($request, $flags);
 
             if ($response instanceof ResponseDescriptor) {
                 return $response;
@@ -175,17 +173,7 @@ class Notifier extends AbstractApiClient implements NotifierInterface
             throw new NotificationException($e->getMessage(), $e->getCode(), $e);
         }
         return null;
-    }
-
-    /**
-     * @param RequestDescriptor $request
-     * @param int $flags
-     * @return bool|ResponseDescriptor
-     */
-    protected function callSendInParent(RequestDescriptor $request, $flags)
-    {
-        return parent::send($request, $flags);
-    }
+}*/
 
     /**
      * @param $data
