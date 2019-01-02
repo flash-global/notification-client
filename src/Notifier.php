@@ -12,6 +12,7 @@ use Fei\Service\Notification\Client\Exception\NotificationException;
 use Fei\Service\Notification\Entity\Notification;
 use Guzzle\Http\Exception\BadResponseException;
 use Fei\Service\Notification\Entity\Alert\Email;
+use Fei\Service\Notification\Entity\Alert\Rss;
 
 /**
  * Class Notifier
@@ -39,9 +40,21 @@ class Notifier extends AbstractApiClient implements NotifierInterface
                 )
             );
 
-        $response = $this->send($request);
+	return $this->send($request)->getData();
+    }
 
-        return $this->getCollection($response->getData());
+    /**
+     * @inheritdoc
+     */
+    public function delete($id)
+    {
+        $request = (new RequestDescriptor())
+            ->setMethod('DELETE')
+            ->setUrl($this->buildUrl(self::API_PATH_INFO . '/' . urlencode($id)));
+
+	$response = $this->send($request);
+
+        return $response->getData();
     }
 
     /**
@@ -87,7 +100,7 @@ class Notifier extends AbstractApiClient implements NotifierInterface
 
         $result = json_decode($response->getBody(), true);
 
-        return $this->getCollection($result['created']);
+        return $result['created'];
     }
 
     /**
@@ -123,70 +136,6 @@ class Notifier extends AbstractApiClient implements NotifierInterface
         return $this->getCollection($dataResponse['updated']);
     }
 
-   public function alertRss($alert)
-    {
-        $alert = (is_array($alert)) ? $alert : [$alert];
-
-        $alert = array_map(function (Rss $alert) {
-            $transformer = new AlertTransformer();
-
-            $arr = $transformer->transformRss($alert);
-            $arr = $transformer->transform($arr);
-
-            return $arr;
-        }, $alert);
-
-        return $this->alert($alert);
-    }
-
-    public function alertAndroid($alert)
-    {
-        $alert = (is_array($alert)) ? $alert : [$alert];
-
-        $alert = array_map(function (Android $alert) {
-            $transformer = new AlertTransformer();
-
-            $arr = $transformer->transformAndroid($alert);
-            $arr = $transformer->transform($arr);
-
-            return $arr;
-        }, $alert);
-
-        return $this->alert($alert);
-    }
-
-    public function alertSms($alert)
-    {
-        $alert = (is_array($alert)) ? $alert : [$alert];
-
-        $alert = array_map(function (Sms $alert) {
-            $transformer = new AlertTransformer();
-
-            $arr = $transformer->transformSms($alert);
-            $arr = $transformer->transform($arr);
-
-            return $arr;
-        }, $alert);
-
-        return $this->alert($alert);
-    }
-
-    public function alertEmail($alert)
-    {
-	$alert = (is_array($alert)) ? $alert : [$alert];
-
-	$alert = array_map(function (Email $alert) {
-	    $transformer = new AlertTransformer();
-
-	    $arr = $transformer->transformEmail($alert);
-	    $arr = $transformer->transform($arr);
-
-            return $arr;
-	}, $alert);
-
-	return $this->alert($alert);
-    }
-
     /**
      * @inheritdoc
      */
@@ -195,9 +144,9 @@ class Notifier extends AbstractApiClient implements NotifierInterface
         $request = (new RequestDescriptor())
             ->setMethod('POST')
             ->setUrl($this->buildUrl(self::API_ALERT_PATH_INFO . '/create'));
-        $request->setBodyParams(['alerts' => json_encode($alert)]);
+	$request->setBodyParams(['alerts' => json_encode($alert)]);
 
-        $response = $this->send($request);
+	$response = $this->send($request);
         $dataResponse = json_decode($response->getBody(), true);
         return $dataResponse;
     }
@@ -205,10 +154,10 @@ class Notifier extends AbstractApiClient implements NotifierInterface
     /**
      * {@inheritdoc}
      */
-    public function send(RequestDescriptor $request, $flags = 0)
+/*    public function send(RequestDescriptor $request, $flags = 0)
     {
         try {
-            $response = $this->callSendInParent($request, $flags);
+            $response = parent::send($request, $flags);
 
             if ($response instanceof ResponseDescriptor) {
                 return $response;
@@ -224,17 +173,7 @@ class Notifier extends AbstractApiClient implements NotifierInterface
             throw new NotificationException($e->getMessage(), $e->getCode(), $e);
         }
         return null;
-    }
-
-    /**
-     * @param RequestDescriptor $request
-     * @param int $flags
-     * @return bool|ResponseDescriptor
-     */
-    protected function callSendInParent(RequestDescriptor $request, $flags)
-    {
-        return parent::send($request, $flags);
-    }
+}*/
 
     /**
      * @param $data
