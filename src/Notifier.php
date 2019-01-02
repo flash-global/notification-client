@@ -138,66 +138,6 @@ class Notifier extends AbstractApiClient implements NotifierInterface
         return $this->getCollection($dataResponse['updated']);
     }
 
-   public function alertRss($alert)
-    {
-        $alert = (is_array($alert)) ? $alert : [$alert];
-
-        $alert = array_map(function (Rss $alert) {
-            $transformer = new AlertTransformer();
-
-            $arr = $transformer->transformRss($alert);
-            $arr = $transformer->transform($arr);
-
-        }, $alert);
-
-        return $this->alert($alert);
-    }
-
-    public function alertAndroid($alert)
-    {
-        $alert = (is_array($alert)) ? $alert : [$alert];
-
-        $alert = array_map(function (Android $alert) {
-            $transformer = new AlertTransformer();
-
-            $arr = $transformer->transformAndroid($alert);
-            $arr = $transformer->transform($arr);
-
-        }, $alert);
-
-        return $this->alert($alert);
-    }
-
-    public function alertSms($alert)
-    {
-        $alert = (is_array($alert)) ? $alert : [$alert];
-
-        $alert = array_map(function (Sms $alert) {
-            $transformer = new AlertTransformer();
-
-            $arr = $transformer->transformSms($alert);
-            $arr = $transformer->transform($arr);
-
-        }, $alert);
-
-        return $this->alert($alert);
-    }
-
-    public function alertEmail($alert)
-    {
-	$alert = (is_array($alert)) ? $alert : [$alert];
-
-	$alert = array_map(function (Email $alert) {
-	    $transformer = new AlertTransformer();
-
-	    $arr = $transformer->transformEmail($alert);
-	    $arr = $transformer->transform($arr);
-
-	}, $alert);
-
-	return $this->alert($alert);
-    }
-
     /**
      * @inheritdoc
      */
@@ -206,9 +146,9 @@ class Notifier extends AbstractApiClient implements NotifierInterface
         $request = (new RequestDescriptor())
             ->setMethod('POST')
             ->setUrl($this->buildUrl(self::API_ALERT_PATH_INFO . '/create'));
-        $request->setBodyParams(['alerts' => json_encode($alert)]);
+	$request->setBodyParams(['alerts' => json_encode($alert)]);
 
-        $response = $this->send($request);
+	$response = $this->send($request);
         $dataResponse = json_decode($response->getBody(), true);
         return $dataResponse;
     }
