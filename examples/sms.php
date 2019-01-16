@@ -3,13 +3,13 @@
 use Fei\ApiClient\AbstractApiClient;
 use Fei\ApiClient\Transport\BasicTransport;
 use Fei\Service\Notification\Client\Notifier;
-use Fei\Service\Notification\Entity\Alert\Email;
+use Fei\Service\Notification\Entity\Alert\Sms;
 use Fei\Service\Notification\Entity\Notification;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-$notifier = new Notifier([AbstractApiClient::OPTION_BASEURL => 'http://127.0.0.1:8800',
-                            AbstractApiClient::OPTION_HEADER_AUTHORIZATION => 'key']);
+$notifier = new Notifier([AbstractApiClient::OPTION_BASEURL => 'http://127.0.0.1:8081',
+    AbstractApiClient::OPTION_HEADER_AUTHORIZATION => 'key']);
 
 $notifier->setTransport(new BasicTransport());
 
@@ -24,12 +24,14 @@ try {
 
     $results = $notifier->notify($notification);
 
-    $alert = (new Email())
-        ->setNotification(reset($results))
-        ->setSubject('Email Subject')
-        ->setContent('Email content')
-        ->setTrigger(1)
-        ->setEmail('email@provider.com');
+    $alert = (new Sms())
+        ->setMessages(
+            (new Sms\Message())
+                ->setRecipients(['+33661103229'])
+                ->setFrom('Test')
+                ->setContent('This is a test')
+        )
+        ->setNotification(new Notification($results[0]));
 
     $res = $notifier->alert($alert);
 

@@ -1,18 +1,13 @@
 <?php
+
 namespace Fei\Service\Notification\Client;
 
 use Fei\ApiClient\AbstractApiClient;
 use Fei\ApiClient\RequestDescriptor;
-use Fei\ApiClient\ResponseDescriptor;
 use Fei\Service\Notification\Client\Builder\SearchBuilder;
-use Fei\Service\Notification\Entity\Alert\AbstractAlert;
+use Fei\Service\Notification\Entity\Alert\Sms\Message;
 use Fei\Service\Notification\Transformer\NotificationTransformer;
-use Fei\Service\Notification\Transformer\AlertTransformer;
-use Fei\Service\Notification\Client\Exception\NotificationException;
 use Fei\Service\Notification\Entity\Notification;
-use Guzzle\Http\Exception\BadResponseException;
-use Fei\Service\Notification\Entity\Alert\Email;
-use Fei\Service\Notification\Entity\Alert\Rss;
 
 /**
  * Class Notifier
@@ -40,7 +35,7 @@ class Notifier extends AbstractApiClient implements NotifierInterface
                 )
             );
 
-	return $this->send($request)->getData();
+        return $this->send($request)->getData();
     }
 
     /**
@@ -52,7 +47,7 @@ class Notifier extends AbstractApiClient implements NotifierInterface
             ->setMethod('DELETE')
             ->setUrl($this->buildUrl(self::API_PATH_INFO . '/' . urlencode($id)));
 
-	$response = $this->send($request);
+        $response = $this->send($request);
 
         return $response->getData();
     }
@@ -77,7 +72,6 @@ class Notifier extends AbstractApiClient implements NotifierInterface
      */
     public function notify($notifications)
     {
-
         $notifications = is_array($notifications) ? $notifications : [$notifications];
         $data = array_map(function ($value) {
             if ($value instanceof Notification) {
@@ -144,36 +138,24 @@ class Notifier extends AbstractApiClient implements NotifierInterface
         $request = (new RequestDescriptor())
             ->setMethod('POST')
             ->setUrl($this->buildUrl(self::API_ALERT_PATH_INFO . '/create'));
-	$request->setBodyParams(['alerts' => json_encode($alert)]);
 
-	$response = $this->send($request);
+        $alert = $alert->toArray();
+
+        if (array_key_exists('messages', $alert)) {
+            $alert['messages'] = array_map(function (Message $message) {
+                return $message->toArray();
+            }, $alert['messages']);
+        }
+
+        $alert['notification'] = $alert['notification']->getId();
+
+        $request->setBodyParams(['alerts' => json_encode([$alert])]);
+
+        $response = $this->send($request);
         $dataResponse = json_decode($response->getBody(), true);
+
         return $dataResponse;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-/*    public function send(RequestDescriptor $request, $flags = 0)
-    {
-        try {
-            $response = parent::send($request, $flags);
-
-            if ($response instanceof ResponseDescriptor) {
-                return $response;
-            }
-        } catch (\Exception $e) {
-            $previous = $e->getPrevious();
-            if ($previous instanceof BadResponseException) {
-                $data = \json_decode($previous->getResponse()->getBody(true), true);
-                if (isset($data['code']) && isset($data['error'])) {
-                    throw new NotificationException($data['error'], $data['code'], $e);
-                }
-            }
-            throw new NotificationException($e->getMessage(), $e->getCode(), $e);
-        }
-        return null;
-}*/
 
     /**
      * @param $data

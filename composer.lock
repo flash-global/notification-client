@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
     "content-hash": "eaa913d9a414361e602279f1a727ac8f",
@@ -531,16 +531,16 @@
         },
         {
             "name": "fei/notification-common",
-            "version": "v1.2.3",
+            "version": "v1.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/flash-global/notification-common.git",
-                "reference": "378291bb0a59907455b651865781b66be4f5b140"
+                "reference": "25def5d8c0849b7ccab81512b2a4125cb0e7a39b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/flash-global/notification-common/zipball/378291bb0a59907455b651865781b66be4f5b140",
-                "reference": "378291bb0a59907455b651865781b66be4f5b140",
+                "url": "https://api.github.com/repos/flash-global/notification-common/zipball/25def5d8c0849b7ccab81512b2a4125cb0e7a39b",
+                "reference": "25def5d8c0849b7ccab81512b2a4125cb0e7a39b",
                 "shasum": ""
             },
             "require": {
@@ -580,7 +580,7 @@
                 "components",
                 "notification"
             ],
-            "time": "2019-01-02T20:48:25+00:00"
+            "time": "2019-01-16T18:16:36+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
